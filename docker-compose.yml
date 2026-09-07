@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  service-b:
+    build:
+      context: .
+      dockerfile: Dockerfile.b
+    # Pas de "ports:" ici, on l'isole du monde extérieur
+    expose:
+      - "9090"
+    networks:
+      - app-network
+
+  service-a:
+    build:
+      context: .
+      dockerfile: Dockerfile.a
+    environment:
+      # L'URL pointe vers le nom du conteneur défini au-dessus
+      - SERVICE_B_URL=http://service-b:9090/api/data
+    ports:
+      # Mappe le port 9090 de l'hôte vers le 9090 du conteneur Service A
+      - "9090:9090"
+    depends_on:
+      - service-b
+    networks:
+      - app-network
+
+# Définition d'un réseau privé pour nos conteneurs
+networks:
+  app-network:
+    driver: bridge # parce que c'est le driver par défaut, mais on peut le spécifier pour plus de clarté

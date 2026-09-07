@@ -1,0 +1,23 @@
+{
+  "name": "intro_devops",
+  "version": "1.0.0",
+  "description": "",
+  "main": "service_a.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aminekhiri/Intro_DevOps.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aminekhiri/Intro_DevOps/issues"
+  },
+  "homepage": "https://github.com/aminekhiri/Intro_DevOps#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
