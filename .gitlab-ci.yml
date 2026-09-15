@@ -1,0 +1,18 @@
+stages: [lint, test, build, push] # l'ordre des etapes = la chaine
+lint: # ~4s : on echoue vite, et pas cher
+  image: node:22-alpine
+  script: [npm ci, npm run lint]
+test:
+  image: node:22-alpine
+  script: [npm ci, npm test -- --coverage]
+  artifacts: { reports: { junit: junit.xml } } # lisible dans la MR
+build: # ~6min : seulement si tout est vert
+  script:
+    - docker build -t $IMAGE:$CI_COMMIT_SHA .
+    - docker push $IMAGE:$CI_COMMIT_SHA
+  only: [main] 
+push: # ~6min : seulement si tout est vert
+  script:
+    - docker tag $IMAGE:$CI_COMMIT_SHA $IMAGE:latest
+    - docker push $IMAGE:latest
+  only: [main]
