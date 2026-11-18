@@ -3,7 +3,7 @@
 replicaCount: 2
 
 image:
-  repository: registry.gitlab.com/CHANGEME/tp4-api
+  repository: ""   # fourni par la CI : $CI_REGISTRY_IMAGE/tp4-api
   tag: latest
   pullPolicy: IfNotPresent
 
@@ -32,4 +32,4 @@ registry:
 # Nom de la release kube-prometheus-stack (Prometheus ne lit que les objets portant ce label)
 monitoring:
   release: monitoring
-  runbookUrl: "https://gitlab.com/CHANGEME/-/blob/main/TP4/README.md#runbook-tp4apihigherrorrate"
+  runbookUrl: "https://gitlab.polytech.umontpellier.fr/amine.khiri/Intro_DevOps/-/blob/main/TP4/README.md#runbook-tp4apihigherrorrate"

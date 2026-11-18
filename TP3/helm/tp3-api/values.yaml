@@ -3,7 +3,7 @@
 replicaCount: 2
 
 image:
-  repository: registry.gitlab.com/CHANGEME/tp3-api
+  repository: ""   # fourni par la CI : $CI_REGISTRY_IMAGE/tp3-api
   tag: latest
   pullPolicy: IfNotPresent
 
