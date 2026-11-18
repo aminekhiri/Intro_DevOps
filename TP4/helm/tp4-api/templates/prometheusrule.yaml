@@ -1,0 +1,28 @@
+# SLO : 99 % des requetes sans erreur 5xx sur 30 jours -> error budget = 1 %.
+# Alerte de burn rate : si on consomme le budget 14.4x trop vite (2 % du budget
+# mensuel brule en 1h), on pagine. En dessous, ce n'est pas une urgence.
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ include "tp4-api.name" . }}
+  labels:
+    {{- include "tp4-api.labels" . | nindent 4 }}
+    release: {{ .Values.monitoring.release }}
+spec:
+  groups:
+    - name: tp4-api-slo
+      rules:
+        - record: tp4:sli_error_ratio:rate5m
+          expr: |
+            sum(rate(http_requests_total{namespace="{{ .Release.Namespace }}",status=~"5.."}[5m]))
+            /
+            sum(rate(http_requests_total{namespace="{{ .Release.Namespace }}"}[5m]))
+        - alert: TP4ApiHighErrorRate
+          expr: tp4:sli_error_ratio:rate5m > (14.4 * 0.01)
+          for: 2m
+          labels:
+            severity: critical
+          annotations:
+            summary: "tp4-api ({{ .Release.Namespace }}) : {{ "{{" }} $value | humanizePercentage {{ "}}" }} d'erreurs 5xx"
+            description: "Le budget d'erreur du SLO 99 % brule 14.4x trop vite."
+            runbook_url: {{ .Values.monitoring.runbookUrl | quote }}

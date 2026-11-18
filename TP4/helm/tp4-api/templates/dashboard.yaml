@@ -1,0 +1,11 @@
+# Dashboard RED, charge automatiquement par le sidecar Grafana (label grafana_dashboard)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "tp4-api.name" . }}-dashboard
+  labels:
+    {{- include "tp4-api.labels" . | nindent 4 }}
+    grafana_dashboard: "1"
+data:
+  tp4-red-{{ .Release.Namespace }}.json: |-
+{{ .Files.Get "dashboards/red.json" | replace "__NS__" .Release.Namespace | indent 4 }}

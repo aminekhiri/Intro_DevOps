@@ -1,7 +1,7 @@
 # TP3 : Industrialiser le pipeline CI/CD
 
-Petite API Express déployée sur Kubernetes avec Helm par le pipeline [`../.gitlab-ci.yml`](../.gitlab-ci.yml)
-(GitLab ne lit que le fichier à la racine du dépôt).
+Petite API Express déployée sur Kubernetes avec Helm par le pipeline [`.gitlab-ci.yml`](.gitlab-ci.yml)
+(inclus par le `.gitlab-ci.yml` racine).
 
 ## Pipeline
 

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: tp4-api
+description: API du TP4 deployee par la CI GitLab
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

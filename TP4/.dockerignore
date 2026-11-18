@@ -1,0 +1,9 @@
+node_modules
+coverage
+junit.xml
+helm
+test
+Dockerfile
+.git
+.env*
+.npm
