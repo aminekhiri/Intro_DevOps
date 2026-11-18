@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "tp3-api.name" . }}
+  labels: {{- include "tp3-api.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: {{ .Values.strategy.maxSurge }}
+      maxUnavailable: {{ .Values.strategy.maxUnavailable }}
+  selector:
+    matchLabels: {{- include "tp3-api.labels" . | nindent 6 }}
+  template:
+    metadata:
+      labels: {{- include "tp3-api.labels" . | nindent 8 }}
+    spec:
+      {{- if .Values.registry.password }}
+      imagePullSecrets:
+        - name: {{ include "tp3-api.name" . }}-registry
+      {{- end }}
+      containers:
+        - name: api
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.targetPort }}
+          env:
+            - name: APP_ENV
+              value: {{ .Values.appEnv | quote }}
+            - name: APP_VERSION
+              value: {{ .Values.image.tag | quote }}
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "tp3-api.name" . }}-secret
+                  key: API_KEY
+          readinessProbe:
+            httpGet: { path: /health, port: {{ .Values.service.targetPort }} }
+            initialDelaySeconds: 3
+            periodSeconds: 5

@@ -1,0 +1,30 @@
+# Valeurs par defaut, surchargees par values-staging.yaml / values-prod.yaml
+# et par la CI (--set image.tag=$CI_COMMIT_SHA, secrets depuis les variables CI).
+replicaCount: 2
+
+image:
+  repository: registry.gitlab.com/CHANGEME/tp3-api
+  tag: latest
+  pullPolicy: IfNotPresent
+
+appEnv: local
+
+# Strategie rolling : on ajoute 1 pod neuf avant d'en retirer un ancien,
+# jamais de pod indisponible -> zero downtime.
+strategy:
+  maxSurge: 1
+  maxUnavailable: 0
+
+service:
+  port: 80
+  targetPort: 3000
+
+# Injecte par la CI depuis le coffre GitLab, JAMAIS commite.
+secret:
+  apiKey: ""
+
+# Identifiants du registre GitLab (deploy token), injectes par la CI.
+registry:
+  server: ""
+  username: ""
+  password: ""

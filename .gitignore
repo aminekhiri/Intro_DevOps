@@ -9,3 +9,6 @@ yarn-error.log
 .vscode/
 .idea/
 .DS_Store
+coverage/
+junit.xml
+.npm/

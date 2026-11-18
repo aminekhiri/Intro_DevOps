@@ -1,0 +1,38 @@
+{
+  "name": "tp3-api",
+  "version": "1.0.0",
+  "private": true,
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "lint": "eslint .",
+    "test": "jest"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/server.js"
+    ],
+    "reporters": [
+      "default",
+      [
+        "jest-junit",
+        {
+          "outputName": "junit.xml"
+        }
+      ]
+    ]
+  },
+  "dependencies": {
+    "express": "^5.3.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "eslint": "^9.39.5",
+    "globals": "^17.14.0",
+    "jest": "^30.5.2",
+    "jest-junit": "^17.0.0",
+    "supertest": "^7.3.2"
+  }
+}
